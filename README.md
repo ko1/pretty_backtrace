@@ -27,7 +27,7 @@ require 'pretty_backtrace'
 PrettyBacktrace.enable
 
 def recursive n
-  str = "Hi #{n}!!" * 128
+  str = "Hi #{n}!!  " * 128
   if n > 0
     recursive n - 1
   else
@@ -41,11 +41,11 @@ recursive 3
 and you can see prettier backtrace (you can see local variable names and values).
 
 ```
-test.rb:10:in `recursive' (n = 0, str = "Hi 0!!Hi 0!!Hi 0!!Hi...): bottom of recursive (RuntimeError)
-        from test.rb:8:in `recursive' (n = 1, str = "Hi 1!!Hi 1!!Hi 1!!Hi...)
-        from test.rb:8:in `recursive' (n = 2, str = "Hi 2!!Hi 2!!Hi 2!!Hi...)
-        from test.rb:8:in `recursive' (n = 3, str = "Hi 3!!Hi 3!!Hi 3!!Hi...)
-        from test.rb:14:in `<main>'
+test.rb:10:in `recursive' (n = 0, str = "Hi 0!!  Hi 0!!  Hi 0...): bottom of recursive (RuntimeError)
+        from test.rb:9:in `recursive' (n = 1, str = "Hi 1!!  Hi 1!!  Hi 1...)
+        from test.rb:9:in `recursive' (n = 2, str = "Hi 2!!  Hi 2!!  Hi 2...)
+        from test.rb:9:in `recursive' (n = 3, str = "Hi 3!!  Hi 3!!  Hi 3...)
+        from test.rb:15:in `<main>'
 ```
 
 You only need to require "pretty_backtrace/enable" to eliminate "PrettyBacktrace.enable call".
