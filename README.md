@@ -52,6 +52,36 @@ You only need to require "pretty_backtrace/enable" to eliminate "PrettyBacktrace
 
 PrettyBacktrace::CONFIG can change behaviour. See source code files for details.
 
+### Multi-line mode
+
+You can use multi-line mode with the following configuration.
+
+```ruby
+PrettyBacktrace::CONFIG[:multi_line] = true
+```
+
+Multi-line mode enable to show all variables (and pointing values) in each lines like that:
+
+```
+test.rb:11:in `recursive'
+          n = 0
+          str = "Hi 0!!  Hi 0!!  Hi 0!!  Hi 0!!  Hi 0!!  Hi 0!!  Hi 0!!  Hi 0...
+: bottom of recursive (RuntimeError)
+        from test.rb:9:in `recursive'
+          n = 1
+          str = "Hi 1!!  Hi 1!!  Hi 1!!  Hi 1!!  Hi 1!!  Hi 1!!  Hi 1!!  Hi 1...
+
+        from test.rb:9:in `recursive'
+          n = 2
+          str = "Hi 2!!  Hi 2!!  Hi 2!!  Hi 2!!  Hi 2!!  Hi 2!!  Hi 2!!  Hi 2...
+
+        from test.rb:9:in `recursive'
+          n = 3
+          str = "Hi 3!!  Hi 3!!  Hi 3!!  Hi 3!!  Hi 3!!  Hi 3!!  Hi 3!!  Hi 3...
+
+        from test.rb:15:in `<main>'
+```
+
 ## Contributing
 
 There are no spec tests. I love to get your contributions!

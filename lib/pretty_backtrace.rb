@@ -5,6 +5,9 @@ module PrettyBacktrace
   CONFIG = {
     truncate_length: 20,
     disabled_exception_classes: {},
+    multi_line: false,
+    multi_line_truncate_length: 60,
+    multi_line_indent: 10,
   }
 
   EXCEPTION_MODIFIER_TRACE = TracePoint.new(:raise){|tp|
@@ -77,11 +80,19 @@ module PrettyBacktrace
     trace_line = backtrace_location.to_s
 
     unless local_variables_values.empty?
-      additional = local_variables_values.map{|lv, v|
-        v = v[0..CONFIG[:truncate_length]] + '...' if v.length > CONFIG[:truncate_length]
-        "#{lv} = #{v.to_s}"
-      }.join(", ")
-      trace_line = "#{trace_line} (#{additional})"
+      if CONFIG[:multi_line]
+        additional = local_variables_values.map{|lv, v|
+          v = v[0..CONFIG[:multi_line_truncate_length]] + '...' if v.length > CONFIG[:multi_line_truncate_length]
+          ' ' * CONFIG[:multi_line_indent] + "#{lv} = #{v.to_s}"
+        }.join("\n") + "\n"
+        trace_line = "#{trace_line}\n#{additional}"
+      else
+        additional = local_variables_values.map{|lv, v|
+          v = v[0..CONFIG[:truncate_length]] + '...' if v.length > CONFIG[:truncate_length]
+          "#{lv} = #{v.to_s}"
+        }.join(", ")
+        trace_line = "#{trace_line} (#{additional})"
+      end
     end
 
     trace_line
