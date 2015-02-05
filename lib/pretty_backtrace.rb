@@ -5,6 +5,8 @@ module PrettyBacktrace
   CONFIG = {
     truncate_length: 20,
     disabled_exception_classes: {},
+    effective_lines: 0 # 0 is infinite
+
     multi_line: false,
     multi_line_truncate_length: 60,
     multi_line_indent: 10,
@@ -20,8 +22,13 @@ module PrettyBacktrace
 
       RubyVM::DebugInspector.open{|dc|
         locs = dc.backtrace_locations
+
+        effective_lines = CONFIG[:effective_lines]
+        effective_lines = locs.size - 2 if effective_lines == 0
+
         pretty_backtrace = locs.map.with_index{|loc, i|
           next if i < 2
+          next loc.to_s unless (effective_lines -= 1) >= 0
 
           iseq = dc.frame_iseq(i)
 
@@ -72,10 +79,6 @@ module PrettyBacktrace
     lvs
   end
 
-  def self.multi_line=(setting)
-    CONFIG[:multi_line] = true
-  end
-
   #
   # local_variables_values is a Hash object containing pairs of
   # a local variable name and value of local variable.
@@ -104,5 +107,14 @@ module PrettyBacktrace
     end
 
     trace_line
+  end
+
+
+  def self.multi_line=(setting)
+    CONFIG[:multi_line] = true
+  end
+
+  def self.effective_lines=(lines)
+    CONFIG[:effective_lines] = lines
   end
 end
