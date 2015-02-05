@@ -57,27 +57,59 @@ PrettyBacktrace::CONFIG can change behaviour. See source code files for details.
 You can use multi-line mode with the following configuration.
 
 ```ruby
-PrettyBacktrace::CONFIG[:multi_line] = true
+PrettyBacktrace.multi_line = true
 ```
 
-Multi-line mode enable to show all variables (and pointing values) in each lines like that:
+Multi-line mode enable to show file contents and all variables (and pointing values) in each lines like that:
 
 ```
 test.rb:11:in `recursive'
-          n = 0
-          str = "Hi 0!!  Hi 0!!  Hi 0!!  Hi 0!!  Hi 0!!  Hi 0!!  Hi 0!!  Hi 0...
+          [FILE]
+             9|    recursive n - 1
+            10|  else
+        ->  11|    raise "bottom of recursive"
+            12|  end
+            13|end
+
+          [LOCAL VARIABLES]
+            n = 0
+            str = "Hi 0!!  Hi 0!!  Hi 0!!  Hi 0!!  Hi 0!!  Hi 0!!  Hi 0!!  Hi 0...
 : bottom of recursive (RuntimeError)
         from test.rb:9:in `recursive'
-          n = 1
-          str = "Hi 1!!  Hi 1!!  Hi 1!!  Hi 1!!  Hi 1!!  Hi 1!!  Hi 1!!  Hi 1...
+          [FILE]
+             7|  str = "Hi #{n}!!  " * 128
+             8|  if n > 0
+        ->   9|    recursive n - 1
+            10|  else
+            11|    raise "bottom of recursive"
+
+          [LOCAL VARIABLES]
+            n = 1
+            str = "Hi 1!!  Hi 1!!  Hi 1!!  Hi 1!!  Hi 1!!  Hi 1!!  Hi 1!!  Hi 1...
 
         from test.rb:9:in `recursive'
-          n = 2
-          str = "Hi 2!!  Hi 2!!  Hi 2!!  Hi 2!!  Hi 2!!  Hi 2!!  Hi 2!!  Hi 2...
+          [FILE]
+             7|  str = "Hi #{n}!!  " * 128
+             8|  if n > 0
+        ->   9|    recursive n - 1
+            10|  else
+            11|    raise "bottom of recursive"
+
+          [LOCAL VARIABLES]
+            n = 2
+            str = "Hi 2!!  Hi 2!!  Hi 2!!  Hi 2!!  Hi 2!!  Hi 2!!  Hi 2!!  Hi 2...
 
         from test.rb:9:in `recursive'
-          n = 3
-          str = "Hi 3!!  Hi 3!!  Hi 3!!  Hi 3!!  Hi 3!!  Hi 3!!  Hi 3!!  Hi 3...
+          [FILE]
+             7|  str = "Hi #{n}!!  " * 128
+             8|  if n > 0
+        ->   9|    recursive n - 1
+            10|  else
+            11|    raise "bottom of recursive"
+
+          [LOCAL VARIABLES]
+            n = 3
+            str = "Hi 3!!  Hi 3!!  Hi 3!!  Hi 3!!  Hi 3!!  Hi 3!!  Hi 3!!  Hi 3...
 
         from test.rb:15:in `<main>'
 ```
