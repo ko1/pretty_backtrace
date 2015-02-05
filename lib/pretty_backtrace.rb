@@ -85,11 +85,15 @@ module PrettyBacktrace
 
     unless local_variables_values.empty?
       if CONFIG[:multi_line]
-        additional = local_variables_values.map{|lv, v|
-          v = v[0..CONFIG[:multi_line_truncate_length]] + '...' if v.length > CONFIG[:multi_line_truncate_length]
-          ' ' * CONFIG[:multi_line_indent] + "#{lv} = #{v.to_s}"
-        }.join("\n") + "\n"
-        trace_line = "#{trace_line}\n#{additional}"
+        unless local_variables_values.empty?
+          indent = ' ' * CONFIG[:multi_line_indent]
+          additional =  indent + "local variables:\n"
+          additional << local_variables_values.map{|lv, v|
+            v = v[0..CONFIG[:multi_line_truncate_length]] + '...' if v.length > CONFIG[:multi_line_truncate_length]
+            indent + "  #{lv} = #{v.to_s}"
+          }.join("\n") + "\n"
+          trace_line = "#{trace_line}\n#{additional}"
+        end
       else
         additional = local_variables_values.map{|lv, v|
           v = v[0..CONFIG[:truncate_length]] + '...' if v.length > CONFIG[:truncate_length]
