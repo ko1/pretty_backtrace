@@ -9,6 +9,7 @@ module PrettyBacktrace
     file_contents: true,
     file_contents_lines: 2,
 
+    reverse: false,
     multi_line: false,
     multi_line_truncate_length: 60,
     multi_line_indent: 10,
@@ -27,6 +28,10 @@ module PrettyBacktrace
 
         effective_lines = CONFIG[:effective_lines]
         effective_lines = locs.size - 2 if effective_lines == 0
+
+        if CONFIG[:reverse]
+          locs = locs.reverse
+        end
 
         pretty_backtrace = locs.map.with_index{|loc, i|
           next if i < 2
@@ -131,6 +136,10 @@ module PrettyBacktrace
     else
       EXCEPTION_MODIFIER_TRACE.disable
     end
+  end
+
+  def self.reverse(reverse)
+    CONFIG[:reverse] = reverse
   end
 
   def self.multi_line=(setting)
