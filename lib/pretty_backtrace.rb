@@ -72,6 +72,10 @@ module PrettyBacktrace
     lvs
   end
 
+  def self.multi_line=(setting)
+    CONFIG[:multi_line] = true
+  end
+
   #
   # local_variables_values is a Hash object containing pairs of
   # a local variable name and value of local variable.

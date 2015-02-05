@@ -1,7 +1,7 @@
 $: << './lib'
 require 'pretty_backtrace/enable'
 
-# PrettyBacktrace::CONFIG[:multi_line] = true
+PrettyBacktrace.multi_line = true
 
 def recursive n
   str = "Hi #{n}!!  " * 128
