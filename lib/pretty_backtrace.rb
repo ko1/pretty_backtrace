@@ -38,8 +38,13 @@ module PrettyBacktrace
             b = dc.frame_binding(i)
             lvs = iseq_local_variables(iseq)
             lvs_val = lvs.inject({}){|r, lv|
-              v = b.local_variable_get(lv).inspect
-              r[lv] = v; r
+              begin
+                v = b.local_variable_get(lv).inspect
+                r[lv] = v
+              rescue NameError
+                # ignore
+              end
+              r
             }
           else
             lvs_val = {}

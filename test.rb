@@ -1,7 +1,18 @@
 $: << './lib'
 require 'pretty_backtrace/enable'
 
-PrettyBacktrace.multi_line = true
+PrettyBacktrace::multi_line = true
+
+1.times{
+  2.times{
+    3.times{
+      raise
+    }
+  }
+}
+
+__END__
+
 
 1.times{
   1.times{
