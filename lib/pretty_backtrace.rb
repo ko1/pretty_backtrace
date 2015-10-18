@@ -41,7 +41,7 @@ module PrettyBacktrace
               begin
                 v = b.local_variable_get(lv).inspect
                 r[lv] = v
-              rescue NameError
+              rescue NameError,TypeError
                 # ignore
               end
               r
