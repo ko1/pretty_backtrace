@@ -63,7 +63,7 @@ module PrettyBacktrace
 
   def self.iseq_local_variables iseq
     _,_,_,_,arg_info,name,path,a_path,_,type,lvs, * = iseq.to_a
-    lvs
+    lvs.select{|lv| lv.is_a?(Symbol) || lv.is_a?(String) }
   end
 
   #
