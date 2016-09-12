@@ -8,6 +8,7 @@ module PrettyBacktrace
     effective_lines: 0, # 0 is infinite
     file_contents: true,
     file_contents_lines: 2,
+    reverse_order: false,
 
     multi_line: false,
     multi_line_truncate_length: 60,
@@ -52,6 +53,7 @@ module PrettyBacktrace
 
           modify_trace_line loc, loc.absolute_path, loc.lineno, lvs_val
         }.compact
+        pretty_backtrace = pretty_backtrace.reverse if CONFIG[:reverse_order]
         e.set_backtrace pretty_backtrace
       }
     rescue => e
@@ -140,6 +142,10 @@ module PrettyBacktrace
 
   def self.multi_line=(setting)
     CONFIG[:multi_line] = setting
+  end
+
+  def self.reverse_order=(setting)
+    CONFIG[:reverse_order] = setting
   end
 
   def self.file_contents=(setting)
