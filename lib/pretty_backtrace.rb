@@ -78,7 +78,7 @@ module PrettyBacktrace
       additional = ''
 
       # file scope
-      if CONFIG[:file_contents] && File.exists?(absolute_path)
+      if CONFIG[:file_contents] && absolute_path && File.exists?(absolute_path)
         fclines = CONFIG[:file_contents_lines]
         start_line = lineno - 1 - 1 * fclines
         start_line = 0 if start_line < 0
